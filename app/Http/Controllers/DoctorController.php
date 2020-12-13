@@ -13,9 +13,11 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    
+    
+     public function index()
     {
-        $doctors = User::all();
+        $doctors = User::doctors()->get();
     	return view('doctors.index', compact('doctors'));
     }
 
@@ -32,13 +34,13 @@ class DoctorController extends Controller
     private function performValidation(Request $request)
     {
         $rules = [
-            'name' => 'required|min:3'
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'dni' => 'nullable|digits:10',
+            'address' => 'nullable|min:5',
+            'phone' => 'nullable|digits_between:9,10'
         ];
-        $messages = [
-            'name.required' => 'Es necesario ingresar un nombre.',
-            'name.min' => 'Como mínimo el nombre debe tener 3 caracteres.',
-        ];
-        $this->validate($request, $rules, $messages);
+        $this->validate($request, $rules);
     }
 
     /**
@@ -49,19 +51,18 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        
         $this->performValidation($request);
 
-    	$doctor = new User();
-    	$doctor->name = $request->input('name');
-        $doctor->email = $request->input('email');
-        $doctor->dni = $request->input('dni');
-        $doctor->address = $request->input('address');
-        $doctor->phone = $request->input('phone');
-    	$doctor->save(); // INSERT
-
-        $notification = 'La especialidad se ha registrado correctamente.';
-    	return redirect('/specialties')->with(compact('notification'));
+    	User::create(
+            $request->only('name','email','dni','address','phone')
+            +[
+                'role' => 'doctor',
+                'password' => bcrypt($request->input('password'))
+            ]   
+        );
+        $notification = 'El medico se ha registrado correctamente.';
+    	return redirect('/doctors')->with(compact('notification'));
     }
 
     /**
@@ -83,7 +84,8 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $doctor = User::doctors()->findOrFail($id);
+        return \view('doctors.edit', compact('doctor'));
     }
 
     /**
@@ -95,7 +97,22 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->performValidation($request);
+
+        $user = User::doctors()->findOrFail($id);
+
+        $data = $request->only('name','email','dni','address','phone');
+        $password = $request->input('password');
+        if ($password) {
+            $data ['password'] =  bcrypt($password);
+        }
+            
+
+        $user->fill($data);
+        $user->save();//UPDATE
+        
+        $notification = 'La informacion del medico se ha actualizado correctamente.';
+    	return redirect('/doctors')->with(compact('notification'));
     }
 
     /**
@@ -104,8 +121,14 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $doctor)
     {
-        //
+        $doctorName = $doctor->name;
+
+        $doctor->delete();
+
+        $notification = "El medico $doctorName se ha eliminado correctamente.";
+    	return redirect('/doctors')->with(compact('notification'));
+
     }
 }

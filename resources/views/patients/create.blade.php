@@ -10,10 +10,10 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header border-0">
-                    <h3 class="mb-0">Nuevo medico</h3>
+                    <h3 class="mb-0">Nuevo paciente</h3>
                 </div>
                 <div class="col text-right">
-                    <a href="{{ url('doctors') }}" class="btn btn-sm btn-success">
+                    <a href="{{ url('patients') }}" class="btn btn-sm btn-success">
                         Cancelar y volver
                     </a>
                 </div>
@@ -26,10 +26,10 @@
                             @endforeach
                         </div>
                     @endif
-                    <form action="{{ url('doctors') }}" method="POST">
+                    <form action="{{ url('patients') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="name">Nombre del medico</label>
+                            <label for="name">Nombre del paciente</label>
                             <input type="text" name="name" value="{{ old('name') }}" class="form-control">
                         </div>
                         <div class="form-group">
@@ -48,12 +48,6 @@
                             <label for="phone">Telefono/celular</label>
                             <input type="text" name="phone" value="{{ old('phone') }}" class="form-control">
                         </div>
-
-                        <div class="form-group">
-                            <label for="password">Contraseña</label>
-                            <input type="text" name="password" value="{{ old('password', str_random(6)) }}" class="form-control">
-                        </div>
-                        
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
                 </div>
