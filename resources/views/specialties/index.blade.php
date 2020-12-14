@@ -1,5 +1,7 @@
 @extends('layouts.panel')
 
+@section('title', 'Especialidades')
+
 @section('content')
 
 <div class="container-fluid mt--6">

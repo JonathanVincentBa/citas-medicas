@@ -1,6 +1,6 @@
 @extends('layouts.panel')
 
-@section('title', 'Crear')
+@section('title', 'Crear pacientes')
 
 @section('content')
 
@@ -48,6 +48,12 @@
                             <label for="phone">Telefono/celular</label>
                             <input type="text" name="phone" value="{{ old('phone') }}" class="form-control">
                         </div>
+
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input type="text" name="password" value="{{ old('password', str_random(6)) }}" class="form-control">
+                        </div>
+                        
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
                 </div>

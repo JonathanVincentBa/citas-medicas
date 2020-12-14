@@ -10,20 +10,21 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Specialty
+Route::middleware(['auth', 'admin'])->namespace('Admin')->group(function () {
 
-Route::get('/specialties','SpecialtyController@index');
-Route::get('/specialties/create','SpecialtyController@create');//form registro
-Route::get('/specialties/{specialty}/edit','SpecialtyController@edit');
+    
+    //Specialty
+        Route::get('/specialties','SpecialtyController@index');
+        Route::get('/specialties/create','SpecialtyController@create');//form registro
+        Route::get('/specialties/{specialty}/edit','SpecialtyController@edit');
 
-Route::post('/specialties','SpecialtyController@store');//envio del form
-Route::put('/specialties/{specialty}/edit','SpecialtyController@update');
-Route::delete('/specialties/{specialty}','SpecialtyController@destroy');
+        Route::post('/specialties','SpecialtyController@store');//envio del form
+        Route::put('/specialties/{specialty}/edit','SpecialtyController@update');
+        Route::delete('/specialties/{specialty}','SpecialtyController@destroy');
 
-//Doctors
+    //Doctors
+        Route::resource('/doctors', 'DoctorController');
 
-Route::resource('/doctors', 'DoctorController');
-
-//Patients
-
-Route::resource('/patients','PatientController');
+    //Patients
+        Route::resource('/patients','PatientController');
+});
