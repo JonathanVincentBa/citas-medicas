@@ -11,8 +11,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth', 'admin'])->namespace('Admin')->group(function () {
-
-    
     //Specialty
         Route::get('/specialties','SpecialtyController@index');
         Route::get('/specialties/create','SpecialtyController@create');//form registro
@@ -27,4 +25,9 @@ Route::middleware(['auth', 'admin'])->namespace('Admin')->group(function () {
 
     //Patients
         Route::resource('/patients','PatientController');
+});
+
+Route::middleware(['auth', 'doctor'])->namespace('Doctor')->group(function () {
+    Route::get('/schedule','ScheduleController@edit');
+    Route::post('/schedule','ScheduleController@store');
 });

@@ -51,7 +51,7 @@
               </li>
             @elseif(auth()->user()->role == 'doctor') {{--Menu Doctor--}}
               <li class="nav-item">
-                <a class="nav-link" href="{{ url('#') }}">
+                <a class="nav-link" href="{{ url('/schedule') }}">
                   <i class="ni ni-calendar-grid-58 text-danger"></i>
                   <span class="nav-link-text">Reservar Cita</span>
                 </a>

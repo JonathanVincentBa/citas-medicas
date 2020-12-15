@@ -4,10 +4,10 @@
 
 @section('content')
 
-<div class="container-fluid mt-6 ">
+<div class="container-fluid mt--6">
   <div class="row">
     <div class="col">
-      <div class="card mb-7">
+      <div class="card">
         <!-- Card header -->
         <div class="card-header border-0">
           <h3 class="mb-0">Light table</h3>
@@ -17,6 +17,7 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header">{{ __('Dashboard') }}</div>
+    
                   <div class="card-body">
                       @if (session('status'))
                           <div class="alert alert-success" role="alert">
@@ -29,8 +30,6 @@
               </div>
           </div>
         </div>
-      </div>
-      <div class="container-fluid mt--6">
         <div class="row">
           <div class="col-xl-8">
             <div class="card bg-default">
